@@ -1,6 +1,14 @@
 package tn.esprit.spring.springbootforkindergarten.entity;
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 
@@ -11,16 +19,35 @@ public class Activity {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+	@NotEmpty(message = "{NotEmpty}")
 	private String nom ;
 	private String description;
+	@FutureOrPresent
 	@Temporal(TemporalType.DATE)
 	private Date date;
+	@NotNull
+	private float prix ;
 	
 	
-	
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-    private Parents parent;
+	@OneToMany(
+	        mappedBy = "activity",
+	        cascade = CascadeType.ALL
+	    )	
+	@JsonBackReference(value="affectation")
+	@JsonIgnore
+	private List<Affectation> affectation;
+	@OneToMany(
+	        mappedBy = "activity",
+	        cascade = CascadeType.ALL
+	    )	
+	@JsonBackReference(value="Rating")
+	private List<RatingActivity> Rating;
+	@OneToMany(
+	        mappedBy = "activity",
+	        cascade = CascadeType.ALL
+	    )	
+	@JsonBackReference(value="ReclamationActivity")
+	private List<ReclamationActivity> ReclamationActivity;
 	
 	@ManyToMany(mappedBy = "activities",cascade = CascadeType.ALL)
     private Set<childrengarden> childrengardens;
@@ -57,12 +84,36 @@ public class Activity {
 		this.date = date;
 	}
 
-	public Parents getParent() {
-		return parent;
+	public float getPrix() {
+		return prix;
 	}
 
-	public void setParent(Parents parent) {
-		this.parent = parent;
+	public void setPrix(float prix) {
+		this.prix = prix;
+	}
+
+	public List<Affectation> getAffectation() {
+		return affectation;
+	}
+
+	public void setAffectation(List<Affectation> affectation) {
+		this.affectation = affectation;
+	}
+
+	public List<RatingActivity> getRating() {
+		return Rating;
+	}
+
+	public void setRating(List<RatingActivity> rating) {
+		Rating = rating;
+	}
+
+	public List<ReclamationActivity> getReclamation() {
+		return ReclamationActivity;
+	}
+
+	public void setReclamation(List<ReclamationActivity> reclamation) {
+		ReclamationActivity = reclamation;
 	}
 
 	public Set<childrengarden> getChildrengardens() {
@@ -73,14 +124,17 @@ public class Activity {
 		this.childrengardens = childrengardens;
 	}
 
-	public Activity(int id, String nom, String description, Date date, Parents parent,
-			Set<childrengarden> childrengardens) {
+	public Activity(int id, String nom, String description, Date date, float prix, List<Affectation> affectation,
+			List<RatingActivity> rating, List<ReclamationActivity> reclamation, Set<childrengarden> childrengardens) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.description = description;
 		this.date = date;
-		this.parent = parent;
+		this.prix = prix;
+		this.affectation = affectation;
+		Rating = rating;
+		ReclamationActivity = reclamation;
 		this.childrengardens = childrengardens;
 	}
 
@@ -89,12 +143,10 @@ public class Activity {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "Activity [id=" + id + ", nom=" + nom + ", description=" + description + ", date=" + date + ", parent="
-				+ parent + ", childrengardens=" + childrengardens + "]";
-	}
+	
+	
 
+	
 
 	
 	

@@ -1,5 +1,11 @@
 package tn.esprit.spring.springbootforkindergarten.service;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +36,17 @@ public class RdvService implements IRdvService{
 	@Override
 	public Rdv addRdv(Rdv r) {
 		l.info("Adding rendezvous with ID: "+r.getId());
+		Date date1 = new Date(System.currentTimeMillis()) ;
+		try{
+		   String sDate1="2022-02-22T15";  
+		     date1=new SimpleDateFormat("0:yyyy-MM-ddTHH").parse(sDate1);
+		}catch(Exception e){
+			l.info(e);
+		}
+		
+		r.setDebut_rdv(date1);
+		r.setFin_rdv(date1);		
+		
 		return rdvRepo.save(r);
 		// TODO Auto-generated method stub
 		
@@ -54,4 +71,15 @@ public class RdvService implements IRdvService{
 		l.info("Retriving rendezvous with ID: "+id);
 		return this.rdvRepo.findById(id).get();
 	}
+	  public List<Rdv> searchrdv(String search) {
+			
+			
+			List<Rdv> rdv_search =rdvRepo.searchrdv(search);
+	
+				return rdv_search;
+
+			
+		
+
+		}
 }

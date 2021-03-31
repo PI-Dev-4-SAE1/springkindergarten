@@ -17,7 +17,7 @@ public class Posts {
 	private String photo;
 	private String description;
 	
-	@ManyToMany(mappedBy = "post",cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "posts",cascade = CascadeType.ALL)
     private Set<Parents> parents;
 
 	public int getId() {

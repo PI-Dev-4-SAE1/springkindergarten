@@ -10,4 +10,5 @@ public interface IRdvService {
 	 void deleteRdv(String id); 
 	 Rdv updateRdv(Rdv r); 
 	 Rdv retrieveRdv(int id);
+	 List<Rdv> searchrdv(String search);
 }

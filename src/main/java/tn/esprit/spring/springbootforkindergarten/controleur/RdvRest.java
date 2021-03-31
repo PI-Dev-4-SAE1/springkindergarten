@@ -47,4 +47,10 @@ public class RdvRest {
 	 @ResponseBody 
 	 public Rdv modifyRdv(@RequestBody Rdv Rdv) { 
 		 return RdvService.updateRdv(Rdv);  }
+	 
+	// http://localhost:8081/SpringMVC/servlet/search/{key}
+	 @GetMapping("/search/{key}") 
+	 @ResponseBody 
+	 public List<Rdv>  search(@PathVariable ("key") String key) { 
+		return RdvService.searchrdv(key);  }
 }

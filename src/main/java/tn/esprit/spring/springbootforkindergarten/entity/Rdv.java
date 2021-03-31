@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
 
 @Entity
 @Table( name= "RDV")
@@ -11,10 +12,10 @@ public class Rdv {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-	
+	@FutureOrPresent
 	@Temporal(TemporalType.DATE)
 	private Date Debut_rdv;
-	
+	@FutureOrPresent
 	@Temporal(TemporalType.DATE)
 	private Date Fin_rdv;
 	

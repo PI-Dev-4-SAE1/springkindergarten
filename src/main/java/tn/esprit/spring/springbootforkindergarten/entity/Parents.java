@@ -1,24 +1,32 @@
 package tn.esprit.spring.springbootforkindergarten.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table( name= "Parents")
-public class Parents extends User {
+public class Parents  {
 
-	public Parents(int id, String email, String password, int phone) {
-		super(id, email, password, phone);
-		
-	}
+	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+	@JsonProperty("name")
 	private String name;
-	private String child_name;
+	@JsonProperty("childname")
+	private String childname;
 	@Temporal(TemporalType.DATE)
 	private Date dateNaissance;
 	private String photo;
@@ -26,6 +34,31 @@ public class Parents extends User {
 	private String adress;
 	
 	private String Kindergartenname;
+   
+	@OneToMany(
+	        mappedBy = "Parent",
+	        cascade = CascadeType.ALL
+	    )	
+	@JsonBackReference(value="Matching")
+	private List<Matching> Matching;
+	@OneToMany(
+	        mappedBy = "parent",
+	        cascade = CascadeType.ALL
+	    )	
+	@JsonBackReference(value="Affectation")
+	//@JsonIgnore
+	private List<Affectation> Affectation;
+	
+	
+	@ManyToMany
+	 @JsonBackReference(value="messages")
+	 private Set<Messaging> messages ;
+	@ManyToMany(cascade = CascadeType.ALL)
+    private Set<Posts> posts;
+	
+	 @ManyToOne
+	 @JsonBackReference(value="satisfaction")
+	 Satisfaction satisfaction ;
 
 	public int getId() {
 		return id;
@@ -43,12 +76,12 @@ public class Parents extends User {
 		this.name = name;
 	}
 
-	public String getChild_name() {
-		return child_name;
+	public String getChildname() {
+		return childname;
 	}
 
-	public void setChild_name(String child_name) {
-		this.child_name = child_name;
+	public void setChildname(String childname) {
+		this.childname = childname;
 	}
 
 	public Date getDateNaissance() {
@@ -91,63 +124,20 @@ public class Parents extends User {
 		Kindergartenname = kindergartenname;
 	}
 
-	public Parents(int id, String email, String password, int phone, int id2, String name, String child_name,
-			Date dateNaissance, String photo, int phone_number, String adress, String kindergartenname) {
-		super(id, email, password, phone);
-		id = id2;
-		this.name = name;
-		this.child_name = child_name;
-		this.dateNaissance = dateNaissance;
-		this.photo = photo;
-		this.phone_number = phone_number;
-		this.adress = adress;
-		Kindergartenname = kindergartenname;
-	}
-	
-	
-	 
-	 @OneToMany(mappedBy = "parents",cascade = CascadeType.ALL)
-    private Set<Reclamation> reclamations;
-	 
-	 @OneToMany( mappedBy = "parents",cascade = CascadeType.ALL)
-	    private Set<Rdv> Rdvs;
-	 
-	 
-	 @OneToMany(mappedBy = "parents",cascade = CascadeType.ALL)
-	    private Set<Feedback> Feedbacks;
-	 
-	 @ManyToMany( cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	    private Set<Messaging> messages;
-	 
-	 
-	 @ManyToMany( cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	    private Set<Posts> post;
-	 
-	 @ManyToOne(cascade = CascadeType.ALL)
-	    private Satisfaction satisfaction;
-
-	public Set<Reclamation> getReclamations() {
-		return reclamations;
+	public List<Matching> getMatching() {
+		return Matching;
 	}
 
-	public void setReclamations(Set<Reclamation> reclamations) {
-		this.reclamations = reclamations;
+	public void setMatching(List<Matching> matching) {
+		Matching = matching;
 	}
 
-	public Set<Rdv> getRdvs() {
-		return Rdvs;
+	public List<Affectation> getAffectation() {
+		return Affectation;
 	}
 
-	public void setRdvs(Set<Rdv> rdvs) {
-		Rdvs = rdvs;
-	}
-
-	public Set<Feedback> getFeedbacks() {
-		return Feedbacks;
-	}
-
-	public void setFeedbacks(Set<Feedback> feedbacks) {
-		Feedbacks = feedbacks;
+	public void setAffectation(List<Affectation> affectation) {
+		Affectation = affectation;
 	}
 
 	public Set<Messaging> getMessages() {
@@ -158,12 +148,12 @@ public class Parents extends User {
 		this.messages = messages;
 	}
 
-	public Set<Posts> getPost() {
-		return post;
+	public Set<Posts> getPosts() {
+		return posts;
 	}
 
-	public void setPost(Set<Posts> post) {
-		this.post = post;
+	public void setPosts(Set<Posts> posts) {
+		this.posts = posts;
 	}
 
 	public Satisfaction getSatisfaction() {
@@ -173,9 +163,40 @@ public class Parents extends User {
 	public void setSatisfaction(Satisfaction satisfaction) {
 		this.satisfaction = satisfaction;
 	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Parents() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Parents(int id, String name, String childname, Date dateNaissance, String photo, int phone_number,
+			String adress, String kindergartenname,
+			List<tn.esprit.spring.springbootforkindergarten.entity.Matching> matching,
+			List<tn.esprit.spring.springbootforkindergarten.entity.Affectation> affectation, Set<Messaging> messages,
+			Set<Posts> posts, Satisfaction satisfaction) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.childname = childname;
+		this.dateNaissance = dateNaissance;
+		this.photo = photo;
+		this.phone_number = phone_number;
+		this.adress = adress;
+		Kindergartenname = kindergartenname;
+		Matching = matching;
+		Affectation = affectation;
+		this.messages = messages;
+		this.posts = posts;
+		this.satisfaction = satisfaction;
+	}
+
 	
 	
-	
+
 	
 	
 	

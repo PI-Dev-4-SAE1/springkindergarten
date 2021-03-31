@@ -27,7 +27,7 @@ public class Messaging {
     private Set<Parents> parents;
 	
 	@OneToMany(mappedBy = "message",cascade = CascadeType.ALL)
-    private Set<childrengarden> childrengarden;
+    private Set <childrengarden> childrengarden;
 
 	public int getId() {
 		return id;
