@@ -1,4 +1,5 @@
 package tn.esprit.spring.springbootforkindergarten.service;
+import java.util.Date;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,6 +52,26 @@ public class EventsService implements IeventsService{
 		return this.eventsRepo.findById(id).get();
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public Events getEvent(String name) {
+		return eventsRepo.findByName(name);
+		//return null ;
+
+	}
+	@Override
+	public List<Events> getAllEventPourToday() {
+		
+		return eventsRepo.findByDate( new Date ());
+		//return null ;
+
+
+	}
+	@Override
+	public List<Events> getAllEventOrdonneParDate() {
+		return eventsRepo.findAllByOrderByDateAsc();
+
 	}
 
 }

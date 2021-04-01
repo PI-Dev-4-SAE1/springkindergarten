@@ -2,13 +2,24 @@ package tn.esprit.spring.springbootforkindergarten.entity;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table( name= "USER")
+@Table( name= "USERS")
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class User implements Serializable {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id 
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
 
     private String email;
     private String password;
@@ -37,14 +48,13 @@ public class User implements Serializable {
 	public void setPhone(int phone) {
 		this.phone = phone;
 	}
-	
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", email=" 
-	+ email + ", password=" + password + ", "
-			+ "phone=" + phone + "]";
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
-	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public User(int id, String email, String password, int phone) {
 		super();
 		this.id = id;
@@ -52,9 +62,8 @@ public class User implements Serializable {
 		this.password = password;
 		this.phone = phone;
 	}
+  
 	
 	
-    
-    
 	
 }
