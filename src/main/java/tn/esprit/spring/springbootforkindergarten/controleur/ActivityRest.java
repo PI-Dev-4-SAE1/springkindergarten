@@ -28,23 +28,34 @@ public class ActivityRest {
 	 public List<Activity> getActivity() { 
 		 List<Activity> list = ActivityService.retrieveAllActivity(); 
 		 return list; } 
+	 
+	 
+	 
 	//http://localhost:8081/SpringMVC/servlet/retrieve-Activity/{Activity-id} 
 	 @GetMapping("/retrieve-Activity/{Activity-id}") 
 	 @ResponseBody 
 	 public Activity retrieveActivity(@PathVariable("Activity-id") int ActivityId) { 
 		 return ActivityService.retrieveActivity(ActivityId);  } 
+	 
+	 
+	 
 	// Ajouter Activity : http://localhost:8081/SpringMVC/servlet/add-Activity 
 	 @PostMapping("/add-Activity") 
 	 @ResponseBody 
 	 public Activity addActivity(@RequestBody Activity a) { 
 		 Activity Activity = ActivityService.addActivity(a); 
 		 return Activity ; }
+	 
+	 
+	 
 	//http://localhost:8081/SpringMVC/servlet/remove-Activity/{Activity-id} 
 	 @DeleteMapping("/remove-Activity/{Activity-id}") 
 	 @ResponseBody 
 	 public void removeActivity(@PathVariable("Activity-id") String ActivityId) {
 		 ActivityService.deleteActivity(ActivityId); 
 		  } 
+	 
+	 
 	 // http://localhost:8081/SpringMVC/servlet/modify-Activity 
 	 @PutMapping("/modify-Activity") 
 	 @ResponseBody 

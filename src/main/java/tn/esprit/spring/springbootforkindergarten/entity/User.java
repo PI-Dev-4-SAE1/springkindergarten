@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 @Entity
 @Table( name= "USER")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class User implements Serializable {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -37,6 +38,15 @@ public class User implements Serializable {
 	public void setPhone(int phone) {
 		this.phone = phone;
 	}
+	
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+
+	
 	
 	@Override
 	public String toString() {

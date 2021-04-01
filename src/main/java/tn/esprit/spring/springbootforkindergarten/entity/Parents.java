@@ -1,13 +1,15 @@
 package tn.esprit.spring.springbootforkindergarten.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table( name= "Parents")
+@DiscriminatorValue(value="Parents")
 public class Parents extends User {
 
 	public Parents(int id, String email, String password, int phone) {
@@ -15,7 +17,40 @@ public class Parents extends User {
 		
 	}
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Parents(String name, String child_name, Date dateNaissance, String photo, int phone_number, String adress,
+			Date date_inscrit, String kindergartenname, String mail, List<LikeKinderGarten> likes,
+			Set<childrengarden> garden, Set<Reclamation> reclamations, Set<Rdv> rdvs, Set<Feedback> feedbacks,
+			Set<Messaging> messages, Set<Posts> post, Satisfaction satisfaction) {
+		super();
+		this.name = name;
+		this.child_name = child_name;
+		this.dateNaissance = dateNaissance;
+		this.photo = photo;
+		this.phone_number = phone_number;
+		this.adress = adress;
+		Date_inscrit = date_inscrit;
+		Kindergartenname = kindergartenname;
+		this.mail = mail;
+		this.likes = likes;
+		this.garden = garden;
+		this.reclamations = reclamations;
+		Rdvs = rdvs;
+		Feedbacks = feedbacks;
+		this.messages = messages;
+		this.post = post;
+		this.satisfaction = satisfaction;
+	}
+	
+	public List<LikeKinderGarten> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<LikeKinderGarten> likes) {
+		this.likes = likes;
+	}
+
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 	private String name;
 	private String child_name;
@@ -25,7 +60,65 @@ public class Parents extends User {
 	private int phone_number;
 	private String adress;
 	
+	@Temporal(TemporalType.DATE)
+	private Date Date_inscrit;
 	private String Kindergartenname;
+	private String mail ;
+	
+	
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="parent")
+	private List<LikeKinderGarten> likes;
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public Set<childrengarden> getGarden() {
+		return garden;
+	}
+
+	public void setGarden(Set<childrengarden> garden) {
+		this.garden = garden;
+	}
+
+	
+
+	public Date getDate_inscrit() {
+		return Date_inscrit;
+	}
+
+	public void setDate_inscrit(Date date_inscrit) {
+		Date_inscrit = date_inscrit;
+	}
+
+	public Parents() {
+		super();
+	}
+	
+	public Parents(int id, String email, String password, int phone, int id2, String name, String child_name,
+			Date dateNaissance, String photo, int phone_number, String adress, String kindergartenname,
+			Set<Reclamation> reclamations, Set<Rdv> rdvs, Set<Feedback> feedbacks, Set<Messaging> messages,
+			Set<Posts> post, Satisfaction satisfaction) {
+		super(id, email, password, phone);
+		id = id2;
+		this.name = name;
+		this.child_name = child_name;
+		this.dateNaissance = dateNaissance;
+		this.photo = photo;
+		this.phone_number = phone_number;
+		this.adress = adress;
+		Kindergartenname = kindergartenname;
+		this.reclamations = reclamations;
+		Rdvs = rdvs;
+		Feedbacks = feedbacks;
+		this.messages = messages;
+		this.post = post;
+		this.satisfaction = satisfaction;
+	}
 
 	public int getId() {
 		return id;
@@ -105,7 +198,8 @@ public class Parents extends User {
 	}
 	
 	
-	 
+	 @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	 private Set<childrengarden> garden;
 	 @OneToMany(mappedBy = "parents",cascade = CascadeType.ALL)
     private Set<Reclamation> reclamations;
 	 
